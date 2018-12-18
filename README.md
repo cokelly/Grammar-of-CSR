@@ -1,5 +1,5 @@
 # Grammar-of-CSR
-This is a notebook associated with the Social and Legal Studies Paper "Human Rights and the Grammar of Corporate Social Responsibility"
+This is a notebook associated with the _Social & Legal Studies_ Paper "Human Rights and the Grammar of Corporate Social Responsibility"
 
 The supplementary data files are arranged towards reproducibility and with this in mind all computation associated with the paper was carried out using R, a free and open source statistical programming language.
 
