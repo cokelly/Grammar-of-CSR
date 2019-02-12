@@ -497,7 +497,7 @@ bg_2010_2015 &lt;- docs_nostops[bg_2010_2015_meta$`corpus position`]
 # Note below &quot;human right&quot;: &quot;rights&quot; has been lemmatied. Note also &#39;window = 1&#39; gives us trigrams (as in words directly neighbouring &quot;human right&quot;). In the final table I slice out row one because it is &#39;human right&#39; itself.
 
 bg_trigram_freqs &lt;- collocateR::get_freqs(bg_2010_2015, &quot;human right&quot;, window = 1)
-bg_trigram_npmi &lt;- collocateR::get_npmi(bg_2010_2015, &quot;human right&quot;, window = 1)
+bg_trigram_npmi &lt;- collocateR::npmi(bg_2010_2015, &quot;human right&quot;, window = 1)
 
 table2 &lt;- bg_trigram_freqs %&gt;% 
       full_join(., bg_trigram_npmi, by = &quot;ngram&quot;) %&gt;% 
@@ -535,10 +535,10 @@ docs2 &lt;- docs_nostops %&gt;%
       str_replace_all(., &quot;environmental&quot;, &quot;environment&quot;) %&gt;%
       str_replace_all(., &quot;safety&quot;, &quot;safe&quot;)
 # Get npmis for all the key terms
-hr &lt;- get_npmi(docs2, &quot;human right&quot;) %&gt;% slice(2:11) %&gt;% select(`human rights` = ngram)
-env &lt;- get_npmi(docs2, &quot;environment&quot;) %&gt;% slice (2:11) %&gt;% select(`environment/environmental` = ngram)
-health &lt;- get_npmi(docs2, &quot;health&quot;) %&gt;% slice(2:11) %&gt;% select(`health` = ngram)
-saf &lt;- get_npmi(docs2, &quot;safe&quot;) %&gt;% slice(2:11) %&gt;% select(`safe/safety` = ngram)
+hr &lt;- collocateR::npmi(docs2, &quot;human right&quot;) %&gt;% slice(2:11) %&gt;% select(`human rights` = ngram)
+env &lt;- collocateR::npmi(docs2, &quot;environment&quot;) %&gt;% slice (2:11) %&gt;% select(`environment/environmental` = ngram)
+health &lt;- collocateR::npmi(docs2, &quot;health&quot;) %&gt;% slice(2:11) %&gt;% select(`health` = ngram)
+saf &lt;- collocateR::npmi(docs2, &quot;safe&quot;) %&gt;% slice(2:11) %&gt;% select(`safe/safety` = ngram)
 # Combine into table 3
 table3 &lt;- tibble(rank = 1:10) %&gt;% bind_cols(hr) %&gt;% bind_cols(env) %&gt;% bind_cols(health) %&gt;% bind_cols(saf)
 
@@ -634,7 +634,7 @@ ggsave(&quot;UNGPs_mentions.png&quot;, ungp_mentions.p, dpi = 600, width = 14.82
 <pre class="r"><code>bg_locs &lt;- meta %&gt;% filter(company == &quot;BG&quot;)
 
 table4 &lt;- unlist(docs_nostops[bg_locs$`corpus position`]) %&gt;% 
-      get_npmi(., &quot;global compact&quot;, ngram = 1) %&gt;%
+      collocateR::npmi(., &quot;global compact&quot;, ngram = 1) %&gt;%
       slice(2:21) %&gt;% select(collocate = ngram) %&gt;% add_column(rank = 1:20, .before = 1)
 
 # To generate a publication-ready table
@@ -693,8 +693,8 @@ docs_verbs &lt;- docs_nostops %&gt;%
       str_replace_all(., &quot;unglobalcompact&quot;, &quot;ungc&quot;) %&gt;%
       str_replace_all(., &quot;voluntary principles on security and human rights&quot;, &quot;vpshr&quot;)
 
-ungc_npmi &lt;- get_npmi(docs_verbs, &quot;ungc&quot;)
-vpshr_npmi &lt;- get_npmi(docs_verbs, &quot;vpshr&quot;)
+ungc_npmi &lt;- collocateR::npmi(docs_verbs, &quot;ungc&quot;)
+vpshr_npmi &lt;- collocateR::npmi(docs_verbs, &quot;vpshr&quot;)
 
 ungc_words &lt;- ungc_npmi %&gt;% # create a character vector of ngrams to categorise through CleanNLP 
       select(ngram) %&gt;% 
